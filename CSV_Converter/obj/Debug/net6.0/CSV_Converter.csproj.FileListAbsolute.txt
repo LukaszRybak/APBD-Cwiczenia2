@@ -13,3 +13,5 @@ C:\Users\Dell\Desktop\Studying\PJATK\APBD\APBD-Cwiczenia2\CSV_Converter\obj\Debu
 C:\Users\Dell\Desktop\Studying\PJATK\APBD\APBD-Cwiczenia2\CSV_Converter\obj\Debug\net6.0\CSV_Converter.pdb
 C:\Users\Dell\Desktop\Studying\PJATK\APBD\APBD-Cwiczenia2\CSV_Converter\obj\Debug\net6.0\CSV_Converter.genruntimeconfig.cache
 C:\Users\Dell\Desktop\Studying\PJATK\APBD\APBD-Cwiczenia2\CSV_Converter\obj\Debug\net6.0\ref\CSV_Converter.dll
+C:\Users\Dell\Desktop\Studying\PJATK\APBD\APBD-Cwiczenia2\CSV_Converter\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\Dell\Desktop\Studying\PJATK\APBD\APBD-Cwiczenia2\CSV_Converter\obj\Debug\net6.0\CSV_Converter.csproj.CopyComplete

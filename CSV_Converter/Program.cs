@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using Newtonsoft.Json;
+using System.IO;
 
 namespace CSV_Converter
 {
@@ -6,36 +7,112 @@ namespace CSV_Converter
     {
         public static void Main(string[] args)
         {
-            var pathff = Path.Combine(Directory.GetCurrentDirectory(), "\\data\\dane.csv");
-            var pathUgly = "C:\\Users\\Dell\\Desktop\\Studying\\PJATK\\APBD\\APBD-Cwiczenia2\\CSV_Converter\\data\\dane.csv";
-            var path = Directory.GetCurrentDirectory() + "\\data\\dane.csv";
 
-            Console.WriteLine("The current directory is " + Directory.GetCurrentDirectory());
-            Console.WriteLine(Directory.GetCurrentDirectory()  + "\\data\\dane.csv");
-            Console.WriteLine(pathff);
-            Console.WriteLine(pathUgly);
-            Console.WriteLine(path);
+            List<string[]> list = new List<string[]>();
+            List<string> badItems = new List<string>();
+            List<Student> studentList = new List<Student>();
+            List<ActiveStudy> activeStudies = new List<ActiveStudy>();
+            string[] formats = { "JSON" };
+            string activeStudiesJson = "";
+            string studentJson = "";
 
-            using (var reader = new StreamReader(path))
+            try
             {
-                List<string> listA = new List<string>();
-                List<string> listB = new List<string>();
-                while (!reader.EndOfStream)
+                if (args.Length < 3)
                 {
-                    var line = reader.ReadLine();
-                    var values = line.Split(',');
+                    throw new ArgumentException("Missing parameters - to run the application please provide the following: [CSV input path], [Output destination], [Output format] ");
+                }
+                if (!formats.Contains(args[2].ToUpper()))
+                {
+                    throw new ArgumentException("Output format " + args[2] + " is not supported");
+                }
 
-                    listA.Add(values[0]);
-                    listB.Add(values[1]);
+                var csvPath = args[0];
 
-                    foreach(string item in listA)
+                using (var reader = new StreamReader(csvPath))
+                {
+                    
+                    while (!reader.EndOfStream)
                     {
+                        var line = reader.ReadLine();
+                        var value = line.Split(',');
+                        list.Add(value);
 
-                        Console.WriteLine(item);
+                    }
+                    foreach (string[] item in list)
+                    {
+                        if (item.Length == 9 && !item.Any(string.IsNullOrEmpty))
+                        {
+                            var indexNumber = "s" + item[4];
+                            var fname = item[0];
+                            var lname = item[1];
+                            var birthdate = item[5];
+                            var email = item[6];
+                            var mothersName = item[7];
+                            var fathersName = item[8];
+                            var studies = new Study(item[2], item[3]);
+                            var student = new Student(indexNumber, fname, lname, birthdate, email, mothersName, fathersName, studies);
+                            var activeStudy = new ActiveStudy(item[2], 1);
+                            if (activeStudies.Find(p => p.Name == activeStudy.Name) == null)
+                            {
+                                activeStudies.Add(activeStudy);
+                            }
+                            else
+                            {
+                                var repeatedActiveStudy = activeStudies.Find(p => p.Name == activeStudy.Name);
+                                repeatedActiveStudy.NumberOfStudents++;
+                            }
+
+                            studentList.Add(student);
+                           
+                        }
+
+                        else
+                        { 
+                            badItems.Add(String.Join(",",item));
+                        }
+                       
+
+
                     }
 
+                     activeStudiesJson = JsonConvert.SerializeObject(activeStudies, Formatting.Indented);
+                     studentJson = JsonConvert.SerializeObject(studentList, Formatting.Indented);
+                    
                 }
             }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+
+                var outputPath = args[1];
+                var format = args[2].ToUpper();
+                DateTime currentDate = DateTime.Today;
+                string dateString = currentDate.ToString("MM/dd/yyyy");
+
+                if (format == "JSON")
+                {
+                    using (StreamWriter sw = File.CreateText(outputPath))
+                    {
+                        var university = new University(dateString, "Jan Kowalski", studentList, activeStudies);
+                        var universityJson = JsonConvert.SerializeObject(university, Formatting.Indented);
+                        sw.WriteLine(universityJson);
+                    }
+                }
+
+                
+            }
+            
+
+
+
         }
 
 

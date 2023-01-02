@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "yMW20PBCjC89ZLAuuskrGUmWOlVsWnM6+MZfAci53l4zyocAQ1kQlPu4hW6RIVFYziG/qrKYUK68ztzCM9Gfug==",
+  "dgSpecHash": "mo4kfNkq+KcSQ8klOPJa65CSiG9WRlLD7BKGCkBXxIt3NK1x3fFOwa+lhc2K7InPqHYc9A/uHnJyaw+cw0CLhQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Dell\\Desktop\\Studying\\PJATK\\APBD\\APBD-Cwiczenia2\\CSV_Converter\\CSV_Converter.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Dell\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512"
+  ],
   "logs": []
 }
